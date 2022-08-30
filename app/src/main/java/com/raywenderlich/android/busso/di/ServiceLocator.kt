@@ -7,3 +7,5 @@ interface ServiceLocator {
     fun <A : Any> lookUp(name: String): A
 
 }
+
+typealias ServiceLocatorFactory<A> = (A) -> ServiceLocator

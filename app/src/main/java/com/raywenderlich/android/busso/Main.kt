@@ -15,5 +15,5 @@ class Main : Application() {
     }
 }
 
-internal fun <A: Any> AppCompatActivity.lookUp(name: String): A =
+internal fun <A : Any> AppCompatActivity.lookUp(name: String): A =
     (applicationContext as Main).serviceLocator.lookUp(name)

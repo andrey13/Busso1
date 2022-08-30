@@ -12,7 +12,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.raywenderlich.android.busso.di.LOCATION_OBSERVABLE
+import com.raywenderlich.android.busso.di.*
 import com.raywenderlich.android.location.api.model.LocationEvent
 import com.raywenderlich.android.location.api.model.LocationPermissionGranted
 import com.raywenderlich.android.location.api.model.LocationPermissionRequest
@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit
  * opens up in fullscreen mode. Once launched it waits for 2 seconds after which it opens the
  * MainActivity
  */
-
 class SplashActivity : AppCompatActivity() {
 
     companion object {
@@ -41,18 +40,21 @@ class SplashActivity : AppCompatActivity() {
     private val handler = Handler()
     private val disposables = CompositeDisposable()
     private lateinit var locationObservable: Observable<LocationEvent>
+    private lateinit var activityServiceLocator: ServiceLocator
     private lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         makeFullScreen()
         setContentView(R.layout.activity_splash)
-//        val locationManager: LocationManager = lookUp(LOCATION_MANAGER)
-//        val permissionChecker: GeoLocationPermissionChecker = lookUp(GEO_PERMISSION_CHECKER)
-//        locationObservable = provideRxLocationObservable(locationManager, permissionChecker)
 
         locationObservable = lookUp(LOCATION_OBSERVABLE)
-        navigator = NavigatorImpl(this)
+
+        activityServiceLocator =
+            lookUp<ServiceLocatorFactory<AppCompatActivity>>(ACTIVITY_LOCATOR_FACTORY)
+                .invoke(this)
+
+        navigator = activityServiceLocator.lookUp(NAVIGATOR)
     }
 
     override fun onStart() {
