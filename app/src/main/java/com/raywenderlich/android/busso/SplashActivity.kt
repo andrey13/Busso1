@@ -12,6 +12,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.raywenderlich.android.busso.di.GEO_PERMISSION_CHECKER
 import com.raywenderlich.android.busso.di.LOCATION_MANAGER
 import com.raywenderlich.android.location.api.model.LocationEvent
 import com.raywenderlich.android.location.api.model.LocationPermissionGranted
@@ -42,16 +43,17 @@ class SplashActivity : AppCompatActivity() {
     private val disposables = CompositeDisposable()
 
     //private lateinit var locationManager: LocationManager
+
     private lateinit var locationObservable: Observable<LocationEvent>
     private lateinit var navigator: Navigator
 
-    private val permissionChecker = object : GeoLocationPermissionChecker {
-        override val isPermissionGiven: Boolean
-            get() = ContextCompat.checkSelfPermission(
-                this@SplashActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-    }
+//    private val permissionChecker = object : GeoLocationPermissionChecker {
+//        override val isPermissionGiven: Boolean
+//            get() = ContextCompat.checkSelfPermission(
+//                this@SplashActivity,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         //locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val locationManager: LocationManager = lookUp(LOCATION_MANAGER)
+        val permissionChecker: GeoLocationPermissionChecker = lookUp(GEO_PERMISSION_CHECKER)
         locationObservable = provideRxLocationObservable(locationManager, permissionChecker)
         navigator = NavigatorImpl(this)
     }
