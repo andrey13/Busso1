@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit
  * opens up in fullscreen mode. Once launched it waits for 2 seconds after which it opens the
  * MainActivity
  */
+
 class SplashActivity : AppCompatActivity() {
 
     companion object {
