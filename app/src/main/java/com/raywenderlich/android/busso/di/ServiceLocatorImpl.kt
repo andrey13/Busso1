@@ -29,7 +29,7 @@ class ServiceLocatorImpl(val context: Context) : ServiceLocator {
     @SuppressLint("ServiceCast")
     override fun <A : Any> lookUp(name: String): A = when (name) {
         LOCATION_OBSERVABLE -> locationObservable
-        ACTIVITY_LOCATOR_FACTORY -> activityServiceLocatorFactory
+        ACTIVITY_LOCATOR_FACTORY -> activityServiceLocatorFactory(this)
         else -> throw IllegalArgumentException("No component lookup for the key: $name")
     } as A
 }
