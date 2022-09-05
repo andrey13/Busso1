@@ -40,22 +40,14 @@ class SplashActivity : AppCompatActivity() {
 
     private val handler = Handler()
     private val disposables = CompositeDisposable()
+
     lateinit var locationObservable: Observable<LocationEvent>
     lateinit var navigator: Navigator
-    //private lateinit var activityServiceLocator: ServiceLocator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         makeFullScreen()
         setContentView(R.layout.activity_splash)
-
-    //  activityServiceLocator =
-    //      lookUp<ServiceLocatorFactory<AppCompatActivity>>(ACTIVITY_LOCATOR_FACTORY)
-    //          .invoke(this)
-    //
-    //  locationObservable = activityServiceLocator.lookUp(LOCATION_OBSERVABLE)
-    //
-    //  navigator = activityServiceLocator.lookUp(NAVIGATOR)
 
         SplashActivityInjector.inject(this)
     }
